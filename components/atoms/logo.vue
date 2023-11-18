@@ -10,7 +10,7 @@
 div {
   span {
     font-weight: 900;
-    text-shadow: 2px 2px rgba($color: #00abfb, $alpha: .4);
+    text-shadow: 2px 2px rgba($color: #00abfb, $alpha: 0.4);
   }
 }
 </style>

@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
+
+const currentTheme = ref<Number>(0);
+const colorMode = useColorMode();
+colorMode.preference = "light";
+
 const lightTheme = ref<Object>({
   path: "/icons/sun-icon.svg",
   alt: "Light",
@@ -10,10 +15,17 @@ const darkTheme = ref<Object>({
   alt: "Dark",
 });
 
-const currentTheme = ref<Number>(0);
+const toggleTheme = () => {
+  // currentTheme.value == 0 ? (currentTheme.value = 1) : (currentTheme.value = 0);
 
-const toggleTheme = () =>
-  currentTheme.value == 0 ? (currentTheme.value = 1) : (currentTheme.value = 0);
+  if (currentTheme.value == 0) {
+    currentTheme.value = 1;
+    colorMode.preference = "dark";
+  } else {
+    currentTheme.value = 0;
+    colorMode.preference = "light";
+  }
+};
 </script>
 
 <template>
@@ -25,7 +37,8 @@ const toggleTheme = () =>
   </figure>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import "@/assets/main.scss";
 figure {
   width: 35px;
   height: 35px;
@@ -35,5 +48,10 @@ figure {
     height: 100%;
     object-fit: contain;
   }
+}
+
+// criar no mixins minhas escolhas de cores para fazer o correto funcionamento do dark/light mode
+.dark-mode body {
+  @include darkTheme;
 }
 </style>
