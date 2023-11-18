@@ -1,10 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from "vue";
+</script>
+
 <template>
   <nav>
     <div class="left">
-      <div class="logo"><span>GIT-GLOW.</span></div>
+      <div class="left__logo">
+        <AtomsLogo />
+      </div>
     </div>
-    <div class="right">fdsa</div>
+    <div class="right">
+      <div class="right__theme">
+        <AtomsThemeChanger />
+      </div>
+    </div>
   </nav>
 </template>
 
@@ -18,18 +27,9 @@ nav {
   padding: 0 $gg-s2;
 
   & > div {
-    // flex: 1 1 auto;
     height: 100%;
     display: flex;
     align-items: center;
-  }
-
-  .left {
-    .logo {
-      span {
-        font-weight: 900;
-      }
-    }
   }
 }
 </style>
