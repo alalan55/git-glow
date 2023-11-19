@@ -1,4 +1,11 @@
+@import "@/assets/utils/index.scss";
+
 @mixin darkTheme {
-    background-color: #091a28;
-    color: #ebf4f1;
+    background-color: $gg-black-1;
+    color: $gg-white-1;
+}
+
+@mixin lightTheme {
+    color: $gg-blue-dark-1;
+    background-color: $gg-white-2;
 }
