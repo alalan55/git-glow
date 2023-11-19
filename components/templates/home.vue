@@ -1,9 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from "vue";
+const search = ref<string>("");
+</script>
 
 <template>
   <div class="home">
     <div class="home__texts">
-      <h1><AtomsLogo /></h1>
+      <h1>
+        <AtomsLogo />
+      </h1>
 
       <span>
         Insira abaixo o seu nome de usuáio do <strong>github</strong> para que possamos
@@ -12,7 +17,7 @@
     </div>
 
     <div class="home__form">
-      <AtomsInput />
+      <AtomsInput type="text" v-model="search" />
     </div>
   </div>
 </template>

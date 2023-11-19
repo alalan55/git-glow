@@ -1,7 +1,23 @@
-<script setup lang="ts"></script>
+<script setup>
+const props = defineProps({
+  modelValue: {
+    type: String,
+  },
+  type: {
+    type: String,
+    default: "text",
+  },
+});
+
+const emits = defineEmits(["update:modelValue"]);
+</script>
 
 <template>
-  <input type="text" />
+  <input
+    :type="props.type"
+    :value="props.modelValue"
+    @input="emits('update:modelValue', $event.target.value)"
+  />
 </template>
 
 <style scoped lang="scss">
