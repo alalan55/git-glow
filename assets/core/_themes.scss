@@ -3,6 +3,11 @@
 @mixin darkTheme {
     background-color: $gg-black-1;
     color: $gg-white-1;
+
+    input {
+        background-color: $gg-blue-dark-2;
+        color: $gg-white-1;
+    }
 }
 
 @mixin lightTheme {

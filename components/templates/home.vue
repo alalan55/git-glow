@@ -3,12 +3,12 @@
 <template>
   <div class="home">
     <div class="home__texts">
-      <h2>Some cool title here</h2>
+      <h1><AtomsLogo /></h1>
 
-      <span
-        >Lorem ipsum dolor sit amet consectetur, adipisicing elit consectetur asperiores
-        quo ad sequi.</span
-      >
+      <span>
+        Insira abaixo o seu nome de usuáio do <strong>github</strong> para que possamos
+        fazer a busca.
+      </span>
     </div>
 
     <div class="home__form">
@@ -20,18 +20,29 @@
 <style scoped lang="scss">
 @import "@/assets/main.scss";
 .home {
+  padding: $gg-s1 $gg-s2;
   width: 100%;
   height: 100%;
-
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  gap: $gg-s2;
 
   &__texts {
     text-align: center;
     max-width: 900px;
     margin-bottom: $gg-s1;
+
+    h1 {
+      margin-bottom: 0.58rem;
+    }
+
+    span {
+      strong {
+        color: $gg-blue-ocean-2;
+      }
+    }
   }
   &__form {
     width: 100%;
