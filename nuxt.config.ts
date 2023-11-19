@@ -11,5 +11,5 @@ export default defineNuxtConfig({
   //   },
   // },
   css: ["@/assets/main.scss"],
-  modules: ["@nuxtjs/color-mode"],
+  modules: ["@nuxtjs/color-mode", "@vueuse/nuxt"],
 });

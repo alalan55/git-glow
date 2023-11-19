@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 const search = ref<string>("");
+
+watchDebounced(
+  search,
+  () => {
+    console.log("call api methods");
+  },
+  { debounce: 1500, maxWait: 5000 }
+);
 </script>
 
 <template>
