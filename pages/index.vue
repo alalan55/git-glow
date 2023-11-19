@@ -1,24 +1,13 @@
 <template>
-  <div class="wrapper">
-    <span>{{ message }}</span>
-  </div>
+  <main class="wrapper">
+    <TemplatesHome />
+  </main>
 </template>
 
-<script setup lang="ts">
-import { ref } from "vue";
-
-const message = ref<String>("Tela de Home");
-</script>
+<script setup lang="ts"></script>
 
 <style scoped lang="scss">
 .wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100%;
-
-  span {
-    font-size: 1.5rem;
-  }
 }
 </style>
