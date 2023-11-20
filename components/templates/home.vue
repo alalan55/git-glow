@@ -1,14 +1,73 @@
 <script setup lang="ts">
 import { ref } from "vue";
+
+const config = useRuntimeConfig();
 const search = ref<string>("");
+const loadingUser = ref<boolean>(false);
+const nextPage = ref<string>("");
+const prevPage = ref<string>("");
+const lastPage = ref<string>("");
 
 watchDebounced(
   search,
   () => {
-    console.log("call api methods");
+    if (search.value.length && search.value.length > 2) fetchSearchedUser();
   },
   { debounce: 1500, maxWait: 5000 }
 );
+
+async function fetchSearchedUser() {
+  loadingUser.value = true;
+
+  const user = await $fetch(`/${search.value}`, {
+    baseURL: config.public.base_url,
+    headers: {
+      Authorization: `Bearer ${config.public.github_token}`,
+    },
+  });
+
+  let user_repositories: Object = [];
+
+  if (user.repos_url) user_repositories = await fetchUserRepo(user.repos_url);
+
+  loadingUser.value = false;
+}
+
+async function fetchUserRepo(url: string) {
+  let repos: any = [];
+
+  try {
+    const res = await $fetch.raw(`${url}?per_page=10`, {
+      baseURL: config.public.base_url,
+      headers: {
+        Authorization: `Bearer ${config.public.github_token}`,
+      },
+    });
+
+    const links = res.headers.get("Link");
+    nextPage.value = getPageFromLinkHeader(links, 'rel="next"');
+    prevPage.value = getPageFromLinkHeader(links, 'rel="prev"');
+    lastPage.value = getPageFromLinkHeader(links, 'rel="last"');
+  } catch (error) {
+    console.error(error);
+  }
+
+  return repos;
+}
+
+function getPageFromLinkHeader(linkHeader: any, rel: any) {
+  if (!linkHeader) return null;
+
+  const links = linkHeader.split(", ");
+  const targetLink = links.find((link: any) => link.includes(rel));
+
+  if (targetLink) {
+    const url = targetLink.match(/<(.+?)>/);
+    return url ? url[1] : null;
+  }
+
+  return null;
+}
 </script>
 
 <template>
@@ -25,7 +84,7 @@ watchDebounced(
     </div>
 
     <div class="home__form">
-      <AtomsInput type="text" v-model="search" />
+      <AtomsInput type="text" v-model="search" :is-loading="loadingUser" />
     </div>
   </div>
 </template>
