@@ -2,19 +2,12 @@
 
 <template>
   <div>
-    <span>Página inicial de usuário</span>
+    <TemplatesUser />
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100%;
-
-  span {
-    font-size: 1.5rem;
-  }
 }
 </style>

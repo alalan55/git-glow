@@ -37,7 +37,6 @@ async function fetchSearchedUser() {
 
     loadingUser.value = false;
     if (user) router.push(`/user/${search.value}`);
-    
   } catch (error) {
     console.error(error);
     loadingUser.value = false;
