@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
+import { useRouter } from "vue-router";
 
 const store = useUserStore();
+const router = useRouter();
 const config = useRuntimeConfig();
 const search = ref<string>("");
 const loadingUser = ref<boolean>(false);
@@ -34,6 +36,8 @@ async function fetchSearchedUser() {
     store.setCurrentUser(user);
 
     loadingUser.value = false;
+    if (user) router.push(`/user/${search.value}`);
+    
   } catch (error) {
     console.error(error);
     loadingUser.value = false;
@@ -77,8 +81,6 @@ function getPageFromLinkHeader(linkHeader: any, rel: any) {
 
   return null;
 }
-
-console.log(store.$user);
 </script>
 
 <template>
