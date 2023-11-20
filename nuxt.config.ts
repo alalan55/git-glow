@@ -1,15 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  // vite: {
-  //   css: {
-  //     preprocessorOptions: {
-  //       scss: {
-  //         additionalData: '@use "@/assets/main.scss";',
-  //       },
-  //     },
-  //   },
-  // },
   css: ["@/assets/main.scss"],
-  modules: ["@nuxtjs/color-mode"],
+  modules: ["@nuxtjs/color-mode", "@vueuse/nuxt", "@pinia/nuxt"],
+  runtimeConfig: {
+    github_token: process.env.NUXT_GIT_HUB_TOKEN,
+    public: {
+      github_token: process.env.NUXT_GIT_HUB_TOKEN,
+      base_url: process.env.NUXT_BASE_URL,
+    },
+  },
 });
