@@ -17,6 +17,7 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.5.1",
     "@vueuse/nuxt": "^10.6.1",
     "sass": "^1.69.5",
     "sass-loader": "^13.3.2"

@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["@/assets/main.scss"],
-  modules: ["@nuxtjs/color-mode", "@vueuse/nuxt"],
+  modules: ["@nuxtjs/color-mode", "@vueuse/nuxt", "@pinia/nuxt"],
   runtimeConfig: {
     github_token: process.env.NUXT_GIT_HUB_TOKEN,
     public: {

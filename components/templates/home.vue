@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useUserStore } from "@/stores/user";
 
+const store = useUserStore();
 const config = useRuntimeConfig();
 const search = ref<string>("");
 const loadingUser = ref<boolean>(false);
-const nextPage = ref<string>("");
-const prevPage = ref<string>("");
-const lastPage = ref<string>("");
 
 watchDebounced(
   search,
@@ -17,24 +16,32 @@ watchDebounced(
 );
 
 async function fetchSearchedUser() {
-  loadingUser.value = true;
+  try {
+    loadingUser.value = true;
 
-  const user = await $fetch(`/${search.value}`, {
-    baseURL: config.public.base_url,
-    headers: {
-      Authorization: `Bearer ${config.public.github_token}`,
-    },
-  });
+    const user = await $fetch(`/${search.value}`, {
+      baseURL: config.public.base_url,
+      headers: {
+        Authorization: `Bearer ${config.public.github_token}`,
+      },
+    });
 
-  let user_repositories: Object = [];
+    let user_repositories: Object = {};
 
-  if (user.repos_url) user_repositories = await fetchUserRepo(user.repos_url);
+    user.repos_url ? (user_repositories = await fetchUserRepo(user.repos_url)) : "";
 
-  loadingUser.value = false;
+    store.setCurrentReposToUser(user_repositories);
+    store.setCurrentUser(user);
+
+    loadingUser.value = false;
+  } catch (error) {
+    console.error(error);
+    loadingUser.value = false;
+  }
 }
 
 async function fetchUserRepo(url: string) {
-  let repos: any = [];
+  let info: any = {};
 
   try {
     const res = await $fetch.raw(`${url}?per_page=10`, {
@@ -45,14 +52,16 @@ async function fetchUserRepo(url: string) {
     });
 
     const links = res.headers.get("Link");
-    nextPage.value = getPageFromLinkHeader(links, 'rel="next"');
-    prevPage.value = getPageFromLinkHeader(links, 'rel="prev"');
-    lastPage.value = getPageFromLinkHeader(links, 'rel="last"');
+
+    info.repos = res._data;
+    info.next = getPageFromLinkHeader(links, 'rel="next"');
+    info.prev = getPageFromLinkHeader(links, 'rel="prev"');
+    info.last = getPageFromLinkHeader(links, 'rel="last"');
   } catch (error) {
     console.error(error);
   }
 
-  return repos;
+  return info;
 }
 
 function getPageFromLinkHeader(linkHeader: any, rel: any) {
@@ -68,6 +77,8 @@ function getPageFromLinkHeader(linkHeader: any, rel: any) {
 
   return null;
 }
+
+console.log(store.$user);
 </script>
 
 <template>
