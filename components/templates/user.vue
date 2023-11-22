@@ -1,21 +1,83 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
+import { useRoute } from "vue-router";
+import { getPageFromLinkHeader } from "@/utils/utils";
 
 const store = useUserStore();
-const user = store.$user;
+const route = useRoute();
+const config = useRuntimeConfig();
+const user = ref<any>(store.$user);
+const user_repos = ref<any>(store.$user_repos);
+const loading_user = ref<boolean>(false);
+
+const getUserByParams = async () => {
+  try {
+    loading_user.value = true;
+    const user_response = await $fetch(`/${route.params.name}`, {
+      baseURL: config.public.base_url,
+      headers: {
+        Authorization: `Bearer ${config.public.github_token}`,
+      },
+    });
+
+    let user_repositories: any = [];
+
+    user_response.repos_url
+      ? (user_repositories = await fetchUserRepo(user_response.repos_url))
+      : "";
+
+    user.value = user_response;
+    user_repos.value = user_repositories.repos;
+    loading_user.value = false;
+  } catch (error) {
+    loading_user.value = false;
+    console.error(error);
+  }
+};
+
+const fetchUserRepo = async (url: string) => {
+  let info: any = {};
+
+  try {
+    const res = await $fetch.raw(`${url}?per_page=10`, {
+      baseURL: config.public.base_url,
+      headers: {
+        Authorization: `Bearer ${config.public.github_token}`,
+      },
+    });
+
+    const links = res.headers.get("Link");
+    info.repos = res._data;
+
+    info.next = getPageFromLinkHeader(links, 'rel="next"');
+    info.prev = getPageFromLinkHeader(links, 'rel="prev"');
+    info.last = getPageFromLinkHeader(links, 'rel="last"');
+  } catch (error) {
+    console.error(error);
+  }
+
+  return info;
+};
+
+if (!user.value && route.params.name) await getUserByParams();
 </script>
 
 <template>
   <main class="user">
     <section class="user__hero">
       <div class="user__hero__left">
-        <span class="title"> Olá, eu me chamo Nome do fulano aqui</span>
+        <span class="title">
+          Olá, eu me chamo {{ user?.name || "ops, não tenho nome 😬" }}😀!</span
+        >
         <br />
-        <span class="sub-title">Front-end developer</span>
+        <span class="sub-title">{{ user?.bio || "ops, não tenho bio 😬" }}</span>
       </div>
 
       <div class="user__hero__right">
-        <figure></figure>
+        <figure>
+          <img :src="user?.avatar_url" :alt="user?.name" />
+        </figure>
       </div>
     </section>
   </main>
@@ -27,7 +89,6 @@ const user = store.$user;
   width: 100%;
   height: 100%;
   padding: $gg-s1 $gg-s2;
-  //   border: 1px solid red;
   max-width: 1300px;
   margin: 0 auto;
 
@@ -42,8 +103,9 @@ const user = store.$user;
 
     &__left {
       .title {
-        font-size: 1.95rem;
-        font-weight: 600;
+        font-size: 1.91rem;
+        font-weight: 700;
+        transition: 0.5rem;
       }
       .sub-title {
         font-size: 1.3rem;
@@ -58,8 +120,15 @@ const user = store.$user;
       figure {
         width: 300px;
         height: 300px;
-        background: $gg-blue-ocean-2;
+        //   background: $gg-blue-ocean-2;
         border-radius: 50%;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
       }
     }
 
@@ -68,6 +137,23 @@ const user = store.$user;
       align-items: flex-start;
       &__left {
         text-align: center;
+      }
+    }
+
+    @media (max-width: 700px) {
+      &__left {
+        .title {
+          font-size: 1.6rem;
+        }
+        .sub-title {
+          font-size: 1rem;
+        }
+      }
+      &__right {
+        figure {
+          width: 250px;
+          height: 250px;
+        }
       }
     }
   }

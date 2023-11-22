@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
+import { getPageFromLinkHeader } from "@/utils/utils";
 
 const store = useUserStore();
 const router = useRouter();
@@ -67,19 +68,8 @@ async function fetchUserRepo(url: string) {
   return info;
 }
 
-function getPageFromLinkHeader(linkHeader: any, rel: any) {
-  if (!linkHeader) return null;
 
-  const links = linkHeader.split(", ");
-  const targetLink = links.find((link: any) => link.includes(rel));
 
-  if (targetLink) {
-    const url = targetLink.match(/<(.+?)>/);
-    return url ? url[1] : null;
-  }
-
-  return null;
-}
 </script>
 
 <template>
