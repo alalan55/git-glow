@@ -1,3 +1,9 @@
+<script setup>
+const props = defineProps({
+  color: { type: String, default: "#fff" },
+});
+</script>
+
 <template>
   <span class="loader"></span>
 </template>
@@ -6,7 +12,7 @@
 .loader {
   width: 38px;
   height: 38px;
-  border: 5px solid #fff;
+  border: 5px solid v-bind("props.color");
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;

@@ -65,7 +65,7 @@ if (!user.value && route.params.name) await getUserByParams();
 
 <template>
   <main class="user">
-    <section class="user__hero">
+    <section v-if="user && !loading_user" class="user__hero">
       <div class="user__hero__left">
         <span class="title">
           Olá, eu me chamo {{ user?.name || "ops, não tenho nome 😬" }}😀!</span
@@ -80,11 +80,19 @@ if (!user.value && route.params.name) await getUserByParams();
         </figure>
       </div>
     </section>
+
+    <OrganismsUserNotFound v-if="!user && !loading_user" />
+
+    <OrganismsUserLoadingInfo
+      v-if="!user && loading_user"
+      :name="`${route.params.name}`"
+    />
   </main>
 </template>
 
 <style scoped lang="scss">
 @import "@/assets/main.scss";
+
 .user {
   width: 100%;
   height: 100%;
@@ -120,7 +128,6 @@ if (!user.value && route.params.name) await getUserByParams();
       figure {
         width: 300px;
         height: 300px;
-        //   background: $gg-blue-ocean-2;
         border-radius: 50%;
 
         img {
