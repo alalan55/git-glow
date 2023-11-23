@@ -8,6 +8,12 @@
         background-color: $gg-blue-dark-2;
         color: $gg-white-1;
     }
+
+    .link-buttom {
+        figure {
+            background: $gg-blue-dark-2;
+        }
+    }
 }
 
 @mixin lightTheme {

@@ -4,12 +4,14 @@ import { useUserStore } from "@/stores/user";
 import { useRoute } from "vue-router";
 import { getPageFromLinkHeader } from "@/utils/utils";
 
+const colorMode = useColorMode();
 const store = useUserStore();
 const route = useRoute();
 const config = useRuntimeConfig();
 const user = ref<any>(store.$user);
 const user_repos = ref<any>(store.$user_repos);
 const loading_user = ref<boolean>(false);
+const links = ref<any>([]);
 
 const getUserByParams = async () => {
   try {
@@ -65,21 +67,7 @@ if (!user.value && route.params.name) await getUserByParams();
 
 <template>
   <main class="user">
-    <section v-if="user && !loading_user" class="user__hero">
-      <div class="user__hero__left">
-        <span class="title">
-          Olá, eu me chamo {{ user?.name || "ops, não tenho nome 😬" }}😀!</span
-        >
-        <br />
-        <span class="sub-title">{{ user?.bio || "ops, não tenho bio 😬" }}</span>
-      </div>
-
-      <div class="user__hero__right">
-        <figure>
-          <img :src="user?.avatar_url" :alt="user?.name" />
-        </figure>
-      </div>
-    </section>
+    <OrganismsUserProfile v-if="user && !loading_user" :user-prop="user" />
 
     <OrganismsUserNotFound v-if="!user && !loading_user" />
 
@@ -99,70 +87,5 @@ if (!user.value && route.params.name) await getUserByParams();
   padding: $gg-s1 $gg-s2;
   max-width: 1300px;
   margin: 0 auto;
-
-  &__hero {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    & > div {
-      flex: 1 1 500px;
-    }
-
-    &__left {
-      .title {
-        font-size: 1.91rem;
-        font-weight: 700;
-        transition: 0.5rem;
-      }
-      .sub-title {
-        font-size: 1.3rem;
-      }
-    }
-
-    &__right {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      figure {
-        width: 300px;
-        height: 300px;
-        border-radius: 50%;
-
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 50%;
-        }
-      }
-    }
-
-    @media (max-width: 1031px) {
-      padding: $gg-s2 0 0;
-      align-items: flex-start;
-      &__left {
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 700px) {
-      &__left {
-        .title {
-          font-size: 1.6rem;
-        }
-        .sub-title {
-          font-size: 1rem;
-        }
-      }
-      &__right {
-        figure {
-          width: 250px;
-          height: 250px;
-        }
-      }
-    }
-  }
 }
 </style>
