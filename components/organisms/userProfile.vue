@@ -34,6 +34,13 @@ const props = defineProps({
       </NuxtLink>
     </div>
   </section>
+
+  <section class="projects">
+    
+    <div class="projects__title">
+        <span>Projetos</span>
+    </div>
+  </section>
 </template>
 
 <style scoped lang="scss">
@@ -128,6 +135,20 @@ const props = defineProps({
     }
     &__bottom {
       justify-content: center;
+    }
+  }
+}
+
+.projects {
+  height: 100vh;
+  height: 100dvh;
+  padding: $gg-s2 0;
+
+  &__title{
+    span{
+        font-size: 1.91rem;
+      font-weight: 700;
+      transition: 0.5rem;
     }
   }
 }
