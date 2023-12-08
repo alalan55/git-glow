@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const props = defineProps({
   userProp: { type: Object, default: null },
+  userReposProp: { type: Object, default: null },
 });
 </script>
 
@@ -36,9 +37,20 @@ const props = defineProps({
   </section>
 
   <section class="projects">
-    
     <div class="projects__title">
-        <span>Projetos</span>
+      <span>Projetos</span>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum cupiditate
+        perspiciatis totam aut. Doloribus, qui fuga, vero error ipsa obcaecati
+        consequuntur recusandae quidem dignissimos maiores atque minima provident!
+        Impedit, soluta?
+      </p>
+    </div>
+
+    <div class="projects__list">
+      <template v-for="project in userReposProp" :key="project.id">
+        <MoleculesUserProjectCard :project-prop="project" />
+      </template>
     </div>
   </section>
 </template>
@@ -144,12 +156,19 @@ const props = defineProps({
   height: 100dvh;
   padding: $gg-s2 0;
 
-  &__title{
-    span{
-        font-size: 1.91rem;
+  &__title {
+    margin-bottom: $gg-s2;
+    span {
+      font-size: 1.91rem;
       font-weight: 700;
       transition: 0.5rem;
     }
+  }
+
+  &__list {
+    display: grid;
+    gap: $gg-s2;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
 }
 </style>

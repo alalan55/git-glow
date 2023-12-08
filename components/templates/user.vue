@@ -31,6 +31,7 @@ const getUserByParams = async () => {
 
     user.value = user_response;
     user_repos.value = user_repositories.repos;
+    
     loading_user.value = false;
   } catch (error) {
     loading_user.value = false;
@@ -62,12 +63,17 @@ const fetchUserRepo = async (url: string) => {
   return info;
 };
 
+
 if (!user.value && route.params.name) await getUserByParams();
 </script>
 
 <template>
   <main class="user">
-    <OrganismsUserProfile v-if="user && !loading_user" :user-prop="user" />
+    <OrganismsUserProfile
+      v-if="user && !loading_user"
+      :user-prop="user"
+      :user-repos-prop="user_repos"
+    />
 
     <OrganismsUserNotFound v-if="!user && !loading_user" />
 
