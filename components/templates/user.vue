@@ -16,6 +16,7 @@ const links = ref<any>([]);
 const getUserByParams = async () => {
   try {
     loading_user.value = true;
+
     const user_response = await $fetch(`/${route.params.name}`, {
       baseURL: config.public.base_url,
       headers: {
@@ -23,15 +24,16 @@ const getUserByParams = async () => {
       },
     });
 
-    let user_repositories: any = [];
+    let user_repositories: any = {};
 
     user_response.repos_url
       ? (user_repositories = await fetchUserRepo(user_response.repos_url))
       : "";
 
-    user.value = user_response;
-    user_repos.value = user_repositories.repos;
-    
+
+    store.setCurrentReposToUser(user_repositories);
+    store.setCurrentUser(user_response);
+
     loading_user.value = false;
   } catch (error) {
     loading_user.value = false;
@@ -62,7 +64,6 @@ const fetchUserRepo = async (url: string) => {
 
   return info;
 };
-
 
 if (!user.value && route.params.name) await getUserByParams();
 </script>

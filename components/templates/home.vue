@@ -38,6 +38,7 @@ async function fetchSearchedUser() {
 
     loadingUser.value = false;
     if (user) router.push(`/user/${search.value}`);
+    // router.push(`/user/${search.value}`);
   } catch (error) {
     console.error(error);
     loadingUser.value = false;
@@ -67,9 +68,6 @@ async function fetchUserRepo(url: string) {
 
   return info;
 }
-
-
-
 </script>
 
 <template>

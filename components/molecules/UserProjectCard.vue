@@ -2,6 +2,12 @@
 const props = defineProps({
   projectProp: { type: Object, default: null, required: true },
 });
+
+const formateDate = (date: string) => {
+  const opt: object = { year: "numeric", month: "2-digit", day: "2-digit" };
+  const formmated_date = new Date(date).toLocaleDateString(undefined, opt);
+  return formmated_date;
+};
 </script>
 
 <template>
@@ -28,9 +34,30 @@ const props = defineProps({
     </div>
 
     <div class="body">
-      {{ projectProp.language }}
+      <div class="body__topic">
+        <small>Criado em: </small>
+        <span>{{ formateDate(projectProp.created_at) || "Sem descrição 🙊" }}</span>
+      </div>
+      <div class="body__topic">
+        <small>Principal linguagem utilizada: </small>
+        <span> {{ projectProp.language || "Sem descrição 🙊" }}</span>
+      </div>
     </div>
 
+    <div class="footer">
+      <div class="counters">
+        <small>forks: </small>
+        <span>{{ projectProp.forks || 0 }}</span>
+      </div>
+      <div class="counters">
+        <small>watcher: </small>
+        <span>{{ projectProp.watchers_count || 0 }}</span>
+      </div>
+      <div class="counters">
+        <small>Issues: </small>
+        <span>{{ projectProp.watchers_count || 0 }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -45,7 +72,7 @@ const props = defineProps({
   background: white;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1.5rem;
 
   .header {
     .principal {
@@ -77,7 +104,7 @@ const props = defineProps({
       }
       span {
         display: block;
-        font-weight: 600;
+        font-weight: 800;
         margin: 0 0 0.7rem 0;
       }
     }
@@ -88,7 +115,34 @@ const props = defineProps({
   }
 
   .body {
-    border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    &__topic {
+      small {
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+      span {
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  .footer{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    .counters{
+      flex: 1 1 auto;
+      small {
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+      span {
+        font-size: 0.85rem;
+      }
+    }
   }
 
   &:hover {

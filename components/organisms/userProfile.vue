@@ -40,15 +40,15 @@ const props = defineProps({
     <div class="projects__title">
       <span>Projetos</span>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum cupiditate
-        perspiciatis totam aut. Doloribus, qui fuga, vero error ipsa obcaecati
-        consequuntur recusandae quidem dignissimos maiores atque minima provident!
-        Impedit, soluta?
+        Explore minha galeria de projetos, onde cada empreendimento é mais do que uma
+        realização técnica; é uma narrativa de inovação e dedicação. Da concepção à
+        implementação, cada projeto reflete meu compromisso em superar desafios e criar
+        soluções significativas e impactantes.
       </p>
     </div>
 
     <div class="projects__list">
-      <template v-for="project in userReposProp" :key="project.id">
+      <template v-for="project in userReposProp.repos" :key="project.id">
         <MoleculesUserProjectCard :project-prop="project" />
       </template>
     </div>
@@ -88,6 +88,7 @@ const props = defineProps({
       width: 300px;
       height: 300px;
       border-radius: 50%;
+      overflow: hidden;
 
       img {
         width: 100%;
@@ -113,6 +114,7 @@ const props = defineProps({
         align-items: center;
         justify-content: center;
         border-radius: 100%;
+
         img {
           width: 65%;
           height: 65%;
@@ -157,7 +159,7 @@ const props = defineProps({
   padding: $gg-s2 0;
 
   &__title {
-    margin-bottom: $gg-s2;
+    margin-bottom: $gg-s4;
     span {
       font-size: 1.91rem;
       font-weight: 700;
