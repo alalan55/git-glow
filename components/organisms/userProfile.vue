@@ -157,6 +157,8 @@ const props = defineProps({
   height: 100vh;
   height: 100dvh;
   padding: $gg-s2 0;
+  display: flex;
+  flex-direction: column;
 
   &__title {
     margin-bottom: $gg-s4;
@@ -170,7 +172,25 @@ const props = defineProps({
   &__list {
     display: grid;
     gap: $gg-s2;
+    padding: 0.55rem 0.55rem $gg-s2;
+    overflow-y: auto;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $gg-white-1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
   }
 }
 </style>

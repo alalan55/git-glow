@@ -44,7 +44,7 @@ const formateDate = (date: string) => {
       </div>
     </div>
 
-    <div class="footer">
+    <!-- <div class="footer">
       <div class="counters">
         <small>forks: </small>
         <span>{{ projectProp.forks || 0 }}</span>
@@ -57,7 +57,7 @@ const formateDate = (date: string) => {
         <small>Issues: </small>
         <span>{{ projectProp.watchers_count || 0 }}</span>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
